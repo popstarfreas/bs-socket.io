@@ -8,8 +8,7 @@ type room = string;
    of how this works. */
 module Make:
   (Messages: Messages.S) =>
-  {
-
+   {
     /*** These functions takes an instance of `http` from NodeJS stdlib, which you can get by simply
          doing `require('http')`.
 
@@ -64,7 +63,6 @@ module Make:
 
     /*** Socket.io docs: https://socket.io/docs/server-api/#socket */
     module Socket: {
-
       /*** Socket.io docs: https://socket.io/docs/server-api/#socket-id
            A socket's unique id can be thought of as a room that has only that socket. */
       let getId: socketT => room;

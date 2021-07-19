@@ -1,6 +1,6 @@
 module Make:
   (Messages: Messages.S) =>
-  {
+   {
     type t;
 
     /*** Socket.io docs: https://socket.io/docs/client-api/#io-url-options */

@@ -38,4 +38,7 @@
                       module MyServer = Server.Make(Messages)
                       let io = MyServer.create();
    */
-module type S = {type clientToServer; type serverToClient;};
+module type S = {
+  type clientToServer;
+  type serverToClient;
+};
