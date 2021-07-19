@@ -18,9 +18,9 @@ For example:
 ```reason
 module Messages = {
   type username = string;
-  type clientToServer = 
+  type clientToServer =
   | Login(username);
-  type serverToClient = 
+  type serverToClient =
   | LoginSuccessful(username, bool);
 };
 module MyServer = BsSocket.Server.Make(Messages);
@@ -76,7 +76,7 @@ MyClient.emit(client, Login("user2157"));
 MyClient.emit(client, ChatMessage("hello"));
 
 // server
-MyServer.Socket.on(socket, msg => 
+MyServer.Socket.on(socket, msg =>
   switch(msg) {
   | Login(username) => ...
   | ChatMessage(msg) => ...
@@ -87,7 +87,7 @@ If you later extended the type of `clientToServer` to have another case, i.e.
 
 ```reason
 type username = string;
-type clientToServer = 
+type clientToServer =
   | Login(username)
   | ChatMessage(string)
   | Logout(username);
@@ -105,3 +105,10 @@ There are a couple differences between the JS API and this one. We'll refer to t
 - Instead of `io.sockets` there is `MyNamespace.default(io)` which does the same thing.
 - Instead of `io.of` there is `MyNamespace.of_(io)` which does the same thing. (`of` is a Reason keyword)
 - All functions that are overloaded have different names depending on what you're passing. There's `MyServer.create` but also `MyServer.createWithHttp` (see example) among others.
+
+
+## Demo
+
+`yarn build && yarn demo` in one terminal.
+
+In another `http  --follow --timeout 3600 GET 'localhost:3000'` with `httpie`.
