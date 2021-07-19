@@ -1,6 +1,9 @@
 {
   "name": "bs-socket",
-  "bsc-flags": ["-w", "-20"],
+  "bsc-flags": [
+    "-w",
+    "-20"
+  ],
   "package-specs": {
     "module": "commonjs",
     "in-source": true
@@ -9,12 +12,11 @@
   "namespace": true,
   "sources": [
     {
-      "dir": "src",
+      "dir": "src"
     },
     {
       "dir": "example",
       "type": "dev"
     }
-  ],
-  "refmt": 3
+  ]
 }
