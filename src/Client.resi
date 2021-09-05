@@ -11,5 +11,5 @@ module Make: (Messages: Messages.S) =>
    The recommended payload type to send is a variant wSocket.io docs: https://socket.io/docs/client-api/#socket-emit-eventname-args-ack */
   (t, Messages.clientToServer) => unit
 
-  let on: (t, Messages.serverToClient => unit) => unit
+  let on: (t, Messages.serverToClientDecodeResult => unit) => unit
 }

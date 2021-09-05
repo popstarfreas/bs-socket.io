@@ -1,18 +1,13 @@
-type dataT =
-  | Data(string)
-  | OrOthers
+type clientToServer = string
+type clientToServerDecodeResult = option<clientToServer>
 
-type data2T = string
+// Decode/Encode are kept simple and do nothing
+let clientToServerDecode = Js.Json.decodeString
+let clientToServerEncode = (message: clientToServer) => Obj.magic(message)
 
-type shared =
-  | Message(dataT)
-  | MessageOnEnter(data2T)
+type serverToClient = string
+type serverToClientDecodeResult = option<serverToClient>
 
-type clientToServer =
-  | Shared(shared)
-  | Hi
-
-type serverToClient = /* In this simple example, the server has no unique messages, unlike
-   the client, which is polite and says hi after connecting (in addition
-   to sending all the shared message types). */
-shared
+// Decode/Encode are kept simple and do nothing
+let serverToClientDecode = Js.Json.decodeString
+let serverToClientEncode = (message: serverToClient) => Obj.magic(message)

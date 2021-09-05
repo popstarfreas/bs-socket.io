@@ -44,25 +44,17 @@ module MyClient = BsSocket.Client.Make(ExampleMessages)
 
 let socket = MyClient.create()
 
-MyClient.emit(socket, Hi)
-
 let chatarea = Document.getElementById("chatarea")
 
 MyClient.on(socket, x =>
   switch x {
-  | Message(Data(s)) =>
+  | Some(s) =>
     let innerHTML = Element.getInnerHTML(chatarea)
     Element.setInnerHTML(
       chatarea,
       innerHTML ++ ("<div><span style='color:red'>Message</span>: " ++ (s ++ "</div>")),
     )
-  | Message(OrOthers) => print_endline("OrOthers")
-  | MessageOnEnter(s) =>
-    let innerHTML = Element.getInnerHTML(chatarea)
-    Element.setInnerHTML(
-      chatarea,
-      innerHTML ++ ("<div><span style='color:red'>MessageOnEnter</span>: " ++ (s ++ "</div>")),
-    )
+  | None => Js.log("Failed to decode.")
   }
 )
 
@@ -71,12 +63,12 @@ let sendbutton = Document.getElementById("sendbutton")
 let chatinput = Document.getElementById("chatinput")
 
 Element.addEventListener(sendbutton, "click", _ =>
-  MyClient.emit(socket, Shared(Message(Data(Element.getValue(chatinput)))))
+  MyClient.emit(socket, Element.getValue(chatinput))
 )
 
 Document.addEventListener("keyup", e =>
   if Event.isEnterKey(e) {
-    MyClient.emit(socket, Shared(MessageOnEnter(Element.getValue(chatinput))))
+    MyClient.emit(socket, Element.getValue(chatinput))
     Element.setValue(chatinput, "")
   }
 )

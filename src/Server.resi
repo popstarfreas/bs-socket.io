@@ -58,14 +58,14 @@ Make: (Messages: Messages.S) =>
 
     let getHandshake: socketT => 'a
 
-    let on: (socketT, Messages.clientToServer => unit) => unit
+    let on: (socketT, Messages.clientToServerDecodeResult => unit) => unit
 
     let emit: (socketT, Messages.serverToClient) => unit
 
     type broadcastT /* ** Socket.io docs: https://socket.io/docs/server-api/#flag-broadcast */
     let broadcast: (socketT, Messages.serverToClient) => unit
 
-    let join: (socketT, room) => socketT
+    @send external join: (socketT, room) => unit = "join"
 
     let leave: (socketT, room) => socketT
 
@@ -77,7 +77,7 @@ Make: (Messages: Messages.S) =>
 
     let use: (socketT, ('packet, ~next: unit => unit) => unit) => unit
 
-    let once: (socketT, 'a => unit) => unit
+    let once: (socketT, Messages.clientToServerDecodeResult => unit) => unit
 
     type volatileT
     let getVolatile: socketT => volatileT

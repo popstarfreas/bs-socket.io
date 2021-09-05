@@ -19,14 +19,14 @@ module Express = {
 module Http = {
   type http
   @module("http") external create: Express.expressT => http = "Server"
-  @send external listen: (http, int, unit => unit) => unit = ""
+  @send external listen: (http, int, unit => unit) => unit = "listen"
 }
 
 let app = Express.express()
 
 let http = Http.create(app)
 
-@val external __dirname: string = ""
+@val external __dirname: string = "__dirname"
 
 Express.use(app, Express.static(Path.join([__dirname, ".."])))
 
@@ -39,20 +39,19 @@ let io = MyServer.createWithHttp(http)
 MyServer.onConnect(io, socket => {
   open MyServer
   print_endline("Got a connection!")
-  let socket = Socket.join(socket, "someRoom")
+  Socket.join(socket, "someRoom")
 
-  Socket.on /* Polymorphic pipe which actually knows about ExampleCommon.t from InnerServer */(
+  Socket.on(
     socket,
     x =>
       switch x {
-      | Shared(message) =>
+      | Some(message) =>
         Socket.broadcast(socket, message)
         Socket.emit(socket, message)
-      | Hi =>
-        Js.log("oh, hi client.")
-        Js.log("Sorry I can't say hi back.  Try uncommenting the line below to see why.")
+      | None =>
+        Socket.broadcast(socket, "Failed to decode message.")
       },
   )
 })
 
-Http.listen /* Socket.emit(socket, Hi); */(http, 3000, () => print_endline("listening on *:3000"))
+Http.listen(http, 3000, () => print_endline("listening on *:3000"))

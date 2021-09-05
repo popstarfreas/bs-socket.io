@@ -1,5 +1,9 @@
 module type S = {
-  type clientToServer /* The user of this library is intended to define a Messages module of
+  type clientToServer
+  type clientToServerDecodeResult
+  let clientToServerDecode: Js.Json.t => clientToServerDecodeResult
+  let clientToServerEncode: clientToServer => Js.Json.t
+  /* The user of this library is intended to define a Messages module of
    type S, which defines the type of the messages that the client can
    send to the server, and the type of the messages that the server can
    send to the client.
@@ -40,4 +44,7 @@ module type S = {
                       let io = MyServer.create();
  */
   type serverToClient
+  type serverToClientDecodeResult
+  let serverToClientDecode: Js.Json.t => serverToClientDecodeResult
+  let serverToClientEncode: serverToClient => Js.Json.t
 }

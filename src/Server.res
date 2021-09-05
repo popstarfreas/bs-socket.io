@@ -62,23 +62,21 @@ module Make = (Messages: Messages.S) => {
     @get external getHandshake: socketT => 'a = "handshake"
 
     @send
-    external _on: (socketT, string, Messages.clientToServer => unit) => unit = "on"
-    let on = (socket, func) => _on(socket, "message", obj => func(Json.fromValidJson(obj)))
+    external _on: (socketT, string, Js.Json.t => unit) => unit = "on"
+    let on = (socket, func) => _on(socket, "message", obj => func(Messages.clientToServerDecode(obj)))
 
     let emit = (socket: socketT, obj: Messages.serverToClient) =>
-      _emit(socket /* ** */, "message", Json.toValidJson(obj))
+      _emit(socket /* ** */, "message", Messages.serverToClientEncode(obj))
 
     type broadcastT
     @get
     external _unsafeGetBroadcast: socketT => broadcastT = "broadcast"
     let broadcast = (socket, data: Messages.serverToClient) =>
-      _emit(_unsafeGetBroadcast(socket), "message", Json.toValidJson(data))
+      _emit(_unsafeGetBroadcast(socket), "message", Messages.serverToClientEncode(data))
 
-    @send external join: (socketT, string) => socketT = "join"
+    @send external join: (socketT, string) => unit = "join"
     @send
     external leave: (
-      /* ** */
-
       socketT,
       string,
     ) => socketT = "leave"
@@ -89,8 +87,8 @@ module Make = (Messages: Messages.S) => {
     external use: (socketT, ('a, ~next: unit => unit) => unit) => unit = "use"
 
     @send
-    external _once: (socketT, string, Messages.serverToClient => unit) => unit /* ** */ = "once"
-    let once = (socket, func) => _once(socket, "message", obj => func(Json.fromValidJson(obj)))
+    external _once: (socketT, string, Js.Json.t => unit) => unit = "once"
+    let once = (socket, func) => _once(socket, "message", obj => func(Messages.clientToServerDecode(obj)))
 
     type volatileT
     @get external getVolatile: socketT => volatileT = "volatile"
@@ -99,7 +97,7 @@ module Make = (Messages: Messages.S) => {
 
     _volatileEmit: (volatileT, string, 'a) => unit = "emit"
     let volatileEmit = (server: socketT, obj: Messages.serverToClient): unit =>
-      _volatileEmit(getVolatile(server), "message", Json.toValidJson(obj))
+      _volatileEmit(getVolatile(server), "message", Messages.serverToClientEncode(obj))
     let onDisconnect = (socket, cb) => _on(socket, "disconnect", _ => cb())
   }
   @send

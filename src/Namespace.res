@@ -32,13 +32,13 @@ module Make = (Messages: Messages.S) => {
   external _emit: /* ** */
   (t, string, 'a) => unit = "emit"
   let emit = (server: t, obj: Messages.serverToClient): unit =>
-    _emit(server, "message", Json.toValidJson(obj))
+    _emit(server, "message", Messages.serverToClientEncode(obj))
 
   type volatileT /* ** Volatile */
   @get external getVolatile: t => volatileT = "volatile"
   @send external _volatileEmit: (volatileT, string, 'a) => unit = "emit"
   let volatileEmit = (server: t, obj: Messages.serverToClient): unit =>
-    _volatileEmit(getVolatile(server), "message", Json.toValidJson(obj))
+    _volatileEmit(getVolatile(server), "message", Messages.serverToClientEncode(obj))
 
   type localT
   @get
@@ -47,5 +47,5 @@ module Make = (Messages: Messages.S) => {
   getLocal: t => localT = "local"
   @send external _localEmit: (localT, string, 'a) => unit = "emit"
   let localEmit = (server: t, obj: Messages.serverToClient): unit =>
-    _localEmit(getLocal(server), "message", Json.toValidJson(obj))
+    _localEmit(getLocal(server), "message", Messages.serverToClientEncode(obj))
 }
