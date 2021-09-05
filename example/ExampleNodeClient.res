@@ -17,7 +17,6 @@ module Process = {
   @val external stdout: stdout = "process.stdout"
 }
 
-
 module Readline = {
   type t
   type options = {
@@ -34,5 +33,4 @@ Readline.createInterface({
   input: Process.stdin,
   output: Process.stdout,
   terminal: false,
-})
-->Readline.on(#line, line => socket->WsClient.emit(line))
+})->Readline.on(#line, line => socket->WsClient.emit(line))

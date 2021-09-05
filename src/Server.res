@@ -14,6 +14,7 @@ module Make = (Messages: Messages.S) => {
    * This allows you to create a JS object with any of the defined properties, allowing to omit
    * any number of them.
    */
+
   @obj
   external makeOptions: (
     ~pingTimeout: int=?,
@@ -63,7 +64,8 @@ module Make = (Messages: Messages.S) => {
 
     @send
     external _on: (socketT, string, Js.Json.t => unit) => unit = "on"
-    let on = (socket, func) => _on(socket, "message", obj => func(Messages.clientToServerDecode(obj)))
+    let on = (socket, func) =>
+      _on(socket, "message", obj => func(Messages.clientToServerDecode(obj)))
 
     let emit = (socket: socketT, obj: Messages.serverToClient) =>
       _emit(socket /* ** */, "message", Messages.serverToClientEncode(obj))
@@ -76,10 +78,7 @@ module Make = (Messages: Messages.S) => {
 
     @send external join: (socketT, string) => unit = "join"
     @send
-    external leave: (
-      socketT,
-      string,
-    ) => socketT = "leave"
+    external leave: (socketT, string) => socketT = "leave"
     @send external to_: (socketT, string) => socketT = "to"
     @send external compress: (socketT, bool) => socketT = "compress"
     @send external disconnect: (socketT, bool) => socketT = "disconnect"
@@ -88,7 +87,8 @@ module Make = (Messages: Messages.S) => {
 
     @send
     external _once: (socketT, string, Js.Json.t => unit) => unit = "once"
-    let once = (socket, func) => _once(socket, "message", obj => func(Messages.clientToServerDecode(obj)))
+    let once = (socket, func) =>
+      _once(socket, "message", obj => func(Messages.clientToServerDecode(obj)))
 
     type volatileT
     @get external getVolatile: socketT => volatileT = "volatile"

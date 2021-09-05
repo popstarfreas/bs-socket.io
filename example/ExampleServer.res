@@ -41,16 +41,13 @@ MyServer.onConnect(io, socket => {
   print_endline("Got a connection!")
   Socket.join(socket, "someRoom")
 
-  Socket.on(
-    socket,
-    x =>
-      switch x {
-      | Some(message) =>
-        Socket.broadcast(socket, message)
-        Socket.emit(socket, message)
-      | None =>
-        Socket.broadcast(socket, "Failed to decode message.")
-      },
+  Socket.on(socket, x =>
+    switch x {
+    | Some(message) =>
+      Socket.broadcast(socket, message)
+      Socket.emit(socket, message)
+    | None => Socket.broadcast(socket, "Failed to decode message.")
+    }
   )
 })
 
