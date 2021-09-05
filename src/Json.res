@@ -1,12 +1,4 @@
-/* @Performance
-     Special serialization logic because we cannot serialize variants using Json.stringify.
-     The reason for that is that Variants are represented as arrays under the hood with a property .tag
-     representing the tag kind. That property isn't one that's normally on array so Json.stringify won't serialize it.
-     We have to resort to using our own encoding.
-           Ben - July 24 2017
-   */
-let toValidJson = [%raw
-  {|
+let toValidJson = %raw(`
   function (o) {
     switch (typeof o){
       case "boolean":
@@ -22,11 +14,9 @@ let toValidJson = [%raw
         throw new Error("Cannot serialize unidentified object [" + o + "].")
     }
   }
-|}
-];
+`)
 
-let fromValidJson = [%raw
-  {|
+let fromValidJson = %raw(`
   function (o) {
     switch (typeof o){
       case "boolean":
@@ -49,5 +39,4 @@ let fromValidJson = [%raw
         throw new Error("Cannot deserialize unidentified object [" + o + "].")
     }
   }
-|}
-];
+`)

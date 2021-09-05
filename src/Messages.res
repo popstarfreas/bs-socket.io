@@ -1,4 +1,5 @@
-/* The user of this library is intended to define a Messages module of
+module type S = {
+  type clientToServer /* The user of this library is intended to define a Messages module of
    type S, which defines the type of the messages that the client can
    send to the server, and the type of the messages that the server can
    send to the client.
@@ -37,8 +38,6 @@
 
                       module MyServer = Server.Make(Messages)
                       let io = MyServer.create();
-   */
-module type S = {
-  type clientToServer;
-  type serverToClient;
-};
+ */
+  type serverToClient
+}

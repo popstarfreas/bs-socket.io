@@ -3,18 +3,19 @@
   "version": "4.1.3",
   "description": "socket.io in Reason",
   "scripts": {
-    "build": "bsb -make-world",
-    "start": "bsb -make-world -w",
-    "clean": "bsb -clean-world",
+    "build": "rescript build",
+    "start": "rescript build -w",
+    "clean": "rescript clean",
     "test": "exit 0",
     "demo": "node example/ExampleServer.bs.js"
   },
   "dependencies": {
-    "socket.io": "^4.1.3"
+    "rescript": "^9.1.4",
+    "socket.io": "4.2.0",
+    "socket.io-client": "4.2.0"
   },
   "devDependencies": {
-    "express": "^4.17.1",
-    "bs-platform": "^9.0.2"
+    "express": "^4.17.1"
   },
   "author": "Benjamin San Souci <benjamin.sansouci@gmail.com>"
 }
