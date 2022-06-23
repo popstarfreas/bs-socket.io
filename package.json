@@ -17,7 +17,9 @@
     "socket.io-client": "4.5.1"
   },
   "devDependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "socket.io": "^4.5.1",
+    "socket.io-client": "^4.5.1"
   },
   "author": "Benjamin San Souci <benjamin.sansouci@gmail.com>"
 }

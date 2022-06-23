@@ -1,6 +1,9 @@
 module WsClient = SocketIo.Client.Make(ExampleMessages)
 
-let socket = WsClient.createWithUrl("ws://localhost:3000")
+let socket = WsClient.createWithUrlAndOptions(
+  "ws://localhost:3000",
+  WsClient.options(~transports=[#websocket], ()),
+)
 
 socket->WsClient.on(x =>
   switch x {
