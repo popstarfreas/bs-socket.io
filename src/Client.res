@@ -8,4 +8,7 @@ module Make = (Messages: Messages.S) => {
   @send external _on: (t, string, Js.Json.t => unit) => unit = "on"
   let on = (socket, func: Messages.serverToClientDecodeResult => unit) =>
     _on(socket, "message", obj => func(Messages.serverToClientDecode(obj)))
+  @send external onConnectError: (t, @as("connect_error") _, Js.Exn.t => unit) => unit = "on"
+  @send external onConnect: (t, @as("connect") _, unit => unit) => unit = "on"
+  @send external onDisconnect: (t, @as("disconnect") _, unit => unit) => unit = "on"
 }

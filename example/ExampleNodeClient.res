@@ -2,12 +2,16 @@ module WsClient = SocketIo.Client.Make(ExampleMessages)
 
 let socket = WsClient.createWithUrl("ws://localhost:3000")
 
-WsClient.on(socket, x =>
+socket->WsClient.on(x =>
   switch x {
   | Some(s) => Js.log(`Echo(${s})`)
   | None => Js.log(`Failed to decode message.`)
   }
 )
+
+socket->WsClient.onConnectError(err => Js.log2("Websocket Error.", err))
+socket->WsClient.onConnect(() => Js.log("Connected."))
+socket->WsClient.onDisconnect(() => Js.log("Disconnected."))
 
 type stdin
 type stdout

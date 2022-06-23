@@ -40,13 +40,17 @@ module Window = {
   external clearInterval: intervalIdT => unit = "window.clearInterval"
 }
 
-module MyClient = SocketIo.Client.Make(ExampleMessages)
+module WsClient = SocketIo.Client.Make(ExampleMessages)
 
-let socket = MyClient.create()
+let socket = WsClient.create()
+
+socket->WsClient.onConnectError(err => Js.log2("Websocket Error.", err))
+socket->WsClient.onConnect(() => Js.log("Connected."))
+socket->WsClient.onDisconnect(() => Js.log("Disconnected."))
 
 let chatarea = Document.getElementById("chatarea")
 
-MyClient.on(socket, x =>
+WsClient.on(socket, x =>
   switch x {
   | Some(s) =>
     let innerHTML = Element.getInnerHTML(chatarea)
@@ -63,12 +67,12 @@ let sendbutton = Document.getElementById("sendbutton")
 let chatinput = Document.getElementById("chatinput")
 
 Element.addEventListener(sendbutton, "click", _ =>
-  MyClient.emit(socket, Element.getValue(chatinput))
+  WsClient.emit(socket, Element.getValue(chatinput))
 )
 
 Document.addEventListener("keyup", e =>
   if Event.isEnterKey(e) {
-    MyClient.emit(socket, Element.getValue(chatinput))
+    WsClient.emit(socket, Element.getValue(chatinput))
     Element.setValue(chatinput, "")
   }
 )

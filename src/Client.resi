@@ -12,4 +12,8 @@ module Make: (Messages: Messages.S) =>
   (t, Messages.clientToServer) => unit
 
   let on: (t, Messages.serverToClientDecodeResult => unit) => unit
+
+  @send external onConnectError: (t, @as("connect_error") _, Js.Exn.t => unit) => unit = "on"
+  @send external onConnect: (t, @as("connect") _, unit => unit) => unit = "on"
+  @send external onDisconnect: (t, @as("disconnect") _, unit => unit) => unit = "on"
 }
