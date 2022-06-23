@@ -32,7 +32,7 @@ Express.use(app, Express.static(Path.join([__dirname, ".."])))
 
 Express.get(app, "/", (_, res) => Express.sendFile(res, "index.html", {"root": __dirname}))
 
-module MyServer = BsSocket.Server.Make(ExampleMessages)
+module MyServer = SocketIo.Server.Make(ExampleMessages)
 
 let io = MyServer.createWithHttp(http)
 

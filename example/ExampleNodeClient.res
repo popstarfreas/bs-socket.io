@@ -1,4 +1,4 @@
-module WsClient = BsSocket.Client.Make(ExampleMessages)
+module WsClient = SocketIo.Client.Make(ExampleMessages)
 
 let socket = WsClient.createWithUrl("ws://localhost:3000")
 

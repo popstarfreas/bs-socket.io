@@ -40,7 +40,7 @@ module Window = {
   external clearInterval: intervalIdT => unit = "window.clearInterval"
 }
 
-module MyClient = BsSocket.Client.Make(ExampleMessages)
+module MyClient = SocketIo.Client.Make(ExampleMessages)
 
 let socket = MyClient.create()
 
