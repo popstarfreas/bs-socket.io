@@ -10,7 +10,7 @@
     "demo": "node example/ExampleServer.bs.js"
   },
   "dependencies": {
-    "rescript": "^9.1.4"
+    "rescript": "^11.1.4"
   },
   "peerDependencies": {
     "socket.io": "4.5.1",
