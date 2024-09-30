@@ -13,21 +13,29 @@ Make: (Messages: Messages.S) =>
 
          Socket.io docs: https://socket.io/docs/server-api/#server */
   'httpServer => serverT
-  type createOptionsT
-  let makeOptions: (
-    ~pingTimeout: int=?,
-    ~pingInterval: int=?,
-    ~maxHttpBufferSize: int=?,
-    ~transports: list<string>=?,
-    ~allowUpgrades: bool=?,
-    ~perMessageDeflate: int=?,
-    ~httpCompression: int=?,
-    ~cookie: string=?,
-    ~cookiePath: string=?,
-    ~wsEngine: string=?,
-    unit,
-  ) => createOptionsT
-  let createWithHttpAndOption: ('httpServer, createOptionsT) => serverT
+  type cors = {
+    origin?: array<string>,
+    allowedHeaders?: array<string>,
+    exposedHeaders?: array<string>,
+    credentials?: bool,
+    maxAge?: int,
+    preflightContinue?: bool,
+    optionsSuccessStatus?: int,
+  }
+  type createOptionsT = {
+    pingTimeout?: int,
+    pingInterval?: int,
+    maxHttpBufferSize?: int,
+    transports?: list<string>,
+    allowUpgrades?: bool,
+    perMessageDeflate?: int,
+    httpCompression?: int,
+    cookie?: string,
+    cookiePath?: string,
+    wsEngine?: string,
+    cors?: cors,
+  }
+  let createWithHttpAndOptions: ('httpServer, createOptionsT) => serverT
 
   let create: unit => serverT
   let createWithOptions: createOptionsT => serverT

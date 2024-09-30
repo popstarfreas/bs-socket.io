@@ -8,31 +8,32 @@ module Make = (Messages: Messages.S) => {
   @module external create: unit => serverT = "socket.io"
   @module external createWithHttp: 'a => serverT = "socket.io"
 
-  type createOptionsT /* **
-   * makeOptions is a simple way to get around the fact that ocaml won't allow you to declare
-   * partially defined records (and row polymorphism + ad hoc polymorphism is tricky in ocaml)
-   * This allows you to create a JS object with any of the defined properties, allowing to omit
-   * any number of them.
-   */
-
-  @obj
-  external makeOptions: (
-    ~pingTimeout: int=?,
-    ~pingInterval: int=?,
-    ~maxHttpBufferSize: int=?,
-    ~transports: list<string>=?,
-    ~allowUpgrades: bool=?,
-    ~perMessageDeflate: int=?,
-    ~httpCompression: int=?,
-    ~cookie: string=?,
-    ~cookiePath: string=?,
-    ~wsEngine: string=?,
-    unit,
-  ) => createOptionsT = ""
+  type cors = {
+    origin?: array<string>,
+    allowedHeaders?: array<string>,
+    exposedHeaders?: array<string>,
+    credentials?: bool,
+    maxAge?: int,
+    preflightContinue?: bool,
+    optionsSuccessStatus?: int,
+  }
+  type createOptionsT = {
+    pingTimeout?: int,
+    pingInterval?: int,
+    maxHttpBufferSize?: int,
+    transports?: list<string>,
+    allowUpgrades?: bool,
+    perMessageDeflate?: int,
+    httpCompression?: int,
+    cookie?: string,
+    cookiePath?: string,
+    wsEngine?: string,
+    cors?: cors,
+  }
   @module
   external createWithOptions: createOptionsT => serverT = "socket.io"
   @module
-  external createWithHttpAndOption: ('a, createOptionsT) => serverT = "socket.io"
+  external createWithHttpAndOptions: ('a, createOptionsT) => serverT = "socket.io"
   @module
   external createWithPort: (int, createOptionsT) => serverT = "socket.io"
 
