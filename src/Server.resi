@@ -71,6 +71,7 @@ Make: (Messages: Messages.S) =>
     let getHandshake: socketT => 'a
 
     let on: (socketT, Messages.clientToServerDecodeResult => unit) => unit
+    let onAsync: (socketT, Messages.clientToServerDecodeResult => Js.Promise.t<unit>) => unit
 
     let emit: (socketT, Messages.serverToClient) => unit
 

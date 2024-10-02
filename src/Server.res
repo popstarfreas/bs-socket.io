@@ -72,6 +72,11 @@ module Make = (Messages: Messages.S) => {
     let on = (socket, func) =>
       _on(socket, "message", obj => func(Messages.clientToServerDecode(obj)))
 
+    @send
+    external _onAsync: (socketT, string, Js.Json.t => Js.Promise.t<unit>) => unit = "on"
+    let onAsync = (socket, func) =>
+      _onAsync(socket, "message", obj => func(Messages.clientToServerDecode(obj)))
+
     let emit = (socket: socketT, obj: Messages.serverToClient) =>
       _emit(socket /* ** */, "message", Messages.serverToClientEncode(obj))
 
