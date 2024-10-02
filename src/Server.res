@@ -47,8 +47,8 @@ module Make = (Messages: Messages.S) => {
   @send
   external originsWithFunc: (serverT, ('a, bool) => unit) => serverT = "origins"
 
-  @send external to: (serverT, string) => serverT = "to"
-  @send external in: (serverT, string) => serverT = "in"
+  @send external to_: (serverT, string) => serverT = "to"
+  @send external in_: (serverT, string) => serverT = "in"
 
   @send external close: serverT => unit = "close"
   /* ** */
@@ -84,8 +84,8 @@ module Make = (Messages: Messages.S) => {
     @send external join: (socketT, string) => unit = "join"
     @send
     external leave: (socketT, string) => socketT = "leave"
-    @send external to: (socketT, string) => socketT = "to"
-    @send external in: (socketT, string) => socketT = "in"
+    @send external to_: (socketT, string) => socketT = "to"
+    @send external in_: (socketT, string) => socketT = "in"
     @send external compress: (socketT, bool) => socketT = "compress"
     @send external disconnect: (socketT, bool) => socketT = "disconnect"
     @send

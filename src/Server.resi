@@ -57,6 +57,10 @@ Make: (Messages: Messages.S) =>
 
   let attachWithPort: (serverT, int, createOptionsT) => serverT
 
+  let to_: (serverT, string) => serverT
+  let in_: (serverT, string) => serverT
+  let emit: (serverT, Messages.serverToClient) => unit
+
   module Socket: {
     /* ** Socket.io docs: https://socket.io/docs/server-api/#socket */
 
@@ -78,6 +82,7 @@ Make: (Messages: Messages.S) =>
     let leave: (socketT, room) => socketT
 
     let to_: (socketT, room) => socketT
+    let in_: (socketT, room) => socketT
 
     let compress: (socketT, bool) => socketT
 
